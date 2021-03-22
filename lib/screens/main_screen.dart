@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_search_v5/bloc/bottom_navbar_bloc.dart';
 import 'package:restaurant_search_v5/screens/tabs/home_screen.dart';
+import 'package:restaurant_search_v5/screens/tabs/search_screen.dart';
 
 import 'package:restaurant_search_v5/style/theme.dart' as Style;
 
@@ -103,11 +104,10 @@ class _MainScreenState extends State<MainScreen> {
             switch (snapshot.data) {
               case NavBarItem.HOME:
                 return HomeScreen();
-              //return testScreen();
 
               case NavBarItem.SEARCH:
-                //return SearchScreen();
-                return testScreenSearch();
+                return SearchScreen();
+              //return testScreenSearch();
             }
           },
         ),
@@ -209,19 +209,19 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget testScreen() {
-    return Container(
-      color: Colors.white,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("Test Screen"),
-        ],
-      ),
-    );
-  }
+  // Widget testScreen() {
+  //   return Container(
+  //     color: Colors.white,
+  //     width: MediaQuery.of(context).size.width,
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: [
+  //         Text("Test Screen"),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget testScreenSearch() {
     return Container(

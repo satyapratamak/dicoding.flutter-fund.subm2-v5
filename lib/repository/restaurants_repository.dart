@@ -21,4 +21,21 @@ class RestaurantsRepository {
       return RestaurantResponse.withError("$error");
     }
   }
+
+  Future<RestaurantResponse> searchRestaurant(String value) async {
+    var params = {"q": value};
+
+    try {
+      Response response = await _dio.get(getSearchUrl, queryParameters: params);
+      return RestaurantResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        //handle DioError here by error type or by error code
+        print(error.response.statusCode);
+      } else {
+        print("Exception occured: $error stackTrace: $stacktrace");
+        return RestaurantResponse.withError("$error");
+      }
+    }
+  }
 }
