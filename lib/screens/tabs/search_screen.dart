@@ -83,24 +83,27 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         Expanded(
-            child: StreamBuilder<RestaurantResponse>(
-          stream: searchRestaurantBloc.subject.stream,
-          builder: (context, AsyncSnapshot<RestaurantResponse> snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.error != null &&
-                  snapshot.data.error.length > 0) {
-                return Container();
-                //return buildLoadingWidget();
+          child: StreamBuilder<RestaurantResponse>(
+            stream: searchRestaurantBloc.subject.stream,
+            builder: (context, AsyncSnapshot<RestaurantResponse> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.error == null &&
+                    snapshot.data.error.length <= 0) {
+                  return buildErrorWidget(
+                      "Please check your internet connection");
+                } else {
+                  return _buildListRestaurant(snapshot.data);
+                }
+              } else if (snapshot.hasError) {
+                //return buildErrorWidget(snapshot.error);
+                return buildErrorWidget(
+                    "Please check your internet connection");
+              } else {
+                return buildLoadingWidget();
               }
-              return _buildListRestaurant(snapshot.data);
-            } else if (snapshot.hasError) {
-              return buildErrorWidget(snapshot.error);
-            } else {
-              return buildLoadingWidget();
-              //return Container();
-            }
-          },
-        ))
+            },
+          ),
+        ),
       ],
     );
   }

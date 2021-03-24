@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:restaurant_search_v5/model/restaurant_detail_response.dart';
 import 'package:restaurant_search_v5/model/restaurant_response.dart';
 
 class RestaurantsRepository {
@@ -7,18 +8,28 @@ class RestaurantsRepository {
 
   var getListUrl = '$mainUrl/list';
   var getSearchUrl = '$mainUrl/search';
-  var getDetailUrl = '$mainUrl/detail';
+  var getDetailUrl = '$mainUrl/detail/';
 
   Future<RestaurantResponse> getListRestaurants() async {
-    //var params = {"apiKey": apiKey, "language": "en", "country": "us"};
     try {
-      // Response response =
-      //     await _dio.get(getSourcesUrl, queryParameters: params);
       Response response = await _dio.get(getListUrl);
       return RestaurantResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-      return RestaurantResponse.withError("$error");
+      //return RestaurantResponse.withError("$error");
+      return RestaurantResponse.withError(
+          "Please check your internet connection");
+    }
+  }
+
+  Future<RestaurantDetailResponse> getDetailRestaurant(String id) async {
+    try {
+      Response response = await _dio.get(getDetailUrl + id);
+      return RestaurantDetailResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return RestaurantDetailResponse.withError(
+          "Please check your internet connection");
     }
   }
 
@@ -34,7 +45,8 @@ class RestaurantsRepository {
         print(error.response.statusCode);
       } else {
         print("Exception occured: $error stackTrace: $stacktrace");
-        return RestaurantResponse.withError("$error");
+        return RestaurantResponse.withError(
+            "Please check your internet connection");
       }
     }
   }

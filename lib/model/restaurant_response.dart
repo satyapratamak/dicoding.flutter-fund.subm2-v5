@@ -12,13 +12,7 @@ class RestaurantResponse {
             .toList(),
         error = "";
 
-  RestaurantResponse.fromJsonDetail(Map<String, dynamic> json)
-      : restaurants = (json["restaurant"] as List)
-            .map((i) => new RestaurantModel.fromJson(i))
-            .toList(),
-        error = "";
-
   RestaurantResponse.withError(String errorValue)
-      : restaurants = List(),
+      : restaurants = [],
         error = errorValue;
 }

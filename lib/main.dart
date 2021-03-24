@@ -13,7 +13,7 @@ void _enablePlatformOverrideForDesktop() {
 }
 
 void main() {
-  _enablePlatformOverrideForDesktop();
+  //_enablePlatformOverrideForDesktop();
   runApp(MyApp());
 }
 
