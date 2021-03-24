@@ -5,11 +5,13 @@ import 'package:restaurant_search_v5/elements/error_element.dart';
 import 'package:restaurant_search_v5/elements/loader_element.dart';
 import 'package:restaurant_search_v5/model/restaurant_model.dart';
 import 'package:restaurant_search_v5/model/restaurant_response.dart';
+import 'package:restaurant_search_v5/screens/restaurant_detail_screen.dart';
 import 'package:restaurant_search_v5/style/theme.dart' as Style;
 
 class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
+  String query = "";
 }
 
 class _SearchScreenState extends State<SearchScreen> {
@@ -17,6 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     searchRestaurantBloc..searchRestaurant("");
   }
 
@@ -87,17 +90,16 @@ class _SearchScreenState extends State<SearchScreen> {
             stream: searchRestaurantBloc.subject.stream,
             builder: (context, AsyncSnapshot<RestaurantResponse> snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data.error == null &&
-                    snapshot.data.error.length <= 0) {
+                if (snapshot.data.error != null &&
+                    snapshot.data.error.length > 0) {
                   return buildErrorWidget(
                       "Please check your internet connection");
-                } else {
-                  return _buildListRestaurant(snapshot.data);
                 }
+                return _buildListRestaurant(snapshot.data);
               } else if (snapshot.hasError) {
                 //return buildErrorWidget(snapshot.error);
                 return buildErrorWidget(
-                    "Please check your internet connection");
+                    "Please check your internet connection 2");
               } else {
                 return buildLoadingWidget();
               }
@@ -139,14 +141,13 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 10.0),
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => NewsDetail(
-                  //       article: restaurants[index],
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RestaurantDetailScreen(id: restaurants[index].id),
+                    ),
+                  );
                 },
                 child: Container(
                   width: 220.0,

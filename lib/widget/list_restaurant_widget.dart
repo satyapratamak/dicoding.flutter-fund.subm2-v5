@@ -26,14 +26,18 @@ class _ListRestaurantWidgetState extends State<ListRestaurantWidget> {
       stream: getListRestaurantBloc.subject.stream,
       builder: (context, AsyncSnapshot<RestaurantResponse> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.error == null && snapshot.data.error.length <= 0) {
+          // if (snapshot.data.error == null && snapshot.data.error.length > 0) {
+          //   return buildErrorWidget("Please check your internet connection");
+          // } else {
+          //   return _buildListRestaurant(snapshot.data);
+          // }
+          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
             return buildErrorWidget("Please check your internet connection");
-          } else {
-            return _buildListRestaurant(snapshot.data);
           }
+          return _buildListRestaurant(snapshot.data);
         } else if (snapshot.hasError) {
           //return buildErrorWidget(snapshot.error);
-          return buildErrorWidget("Please check your internet connection");
+          return buildErrorWidget("Data mengalami kerusakan");
         } else {
           return buildLoadingWidget();
         }
@@ -52,7 +56,7 @@ class _ListRestaurantWidgetState extends State<ListRestaurantWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Please check your internet connection",
+              "Empty Result",
               style: TextStyle(
                 color: Colors.black45,
                 fontWeight: FontWeight.bold,
